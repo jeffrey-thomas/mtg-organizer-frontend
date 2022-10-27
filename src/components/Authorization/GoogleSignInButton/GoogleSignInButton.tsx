@@ -1,11 +1,16 @@
 import { Box, Button } from "@mui/material"
 import { ReactComponent as Gnormal } from '../../../images/btn_google_dark_normal_ios.svg'
 import { Firebase } from "../../../firebase/Firebase"
+import { useDispatch } from "react-redux"
+import { getCollection } from "../../../redux/CollectionSlice"
+import { AppDispatch } from "../../../redux/store"
 
 export const GoogleSignInButton = ()=>{
 
+    const dispatch = useDispatch<AppDispatch>()
+
     const signin = async()=>{
-        Firebase.signIn();
+        Firebase.signIn()
     }
 
     return (
