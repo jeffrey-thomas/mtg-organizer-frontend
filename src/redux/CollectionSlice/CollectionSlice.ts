@@ -45,6 +45,10 @@ export const CollectionSlice = createSlice({
   initialState,
   reducers: {
 
+    clearCollection: (state)=>{
+      state = initialState;
+    },
+
     addCard: (state, action:PayloadAction<Card>)=>{
       
       const {deck_id, id: card_id, qty} = action.payload
@@ -118,7 +122,7 @@ export const CollectionSlice = createSlice({
   },
 });
 
- export const { addCard, addDeck, updateCard, updateDeck, removeCard, removeDeck } = CollectionSlice.actions;
+ export const { clearCollection, addCard, addDeck, updateCard, updateDeck, removeCard, removeDeck } = CollectionSlice.actions;
 
 //Selectors
 export const selectCollection = (state: RootState) => state.collection;

@@ -18,7 +18,8 @@ export const useCardData = (dispatch:AppDispatch)=>{
         ()=>{
             if(collectionStatus==='idle' && cardDataStatus ==='uninitialized'){
                 const ids = Object.keys(collection.cards).map((card_id)=>collection.cards[card_id].id)
-                dispatch(loadCards(ids))
+                if(ids.length>0)
+                    dispatch(loadCards(ids))
             }
         }
     )

@@ -38,7 +38,7 @@ export const CardDataSlice = createSlice({
       delete state.cards[action.payload]
     },
 
-    clear: (state)=>{
+    clearCardData: (state)=>{
       state.cards = {}
     }
   },
@@ -63,7 +63,7 @@ export const CardDataSlice = createSlice({
   },
 });
 
- export const { addCard, releaseCard, clear } = CardDataSlice.actions;
+ export const { addCard, releaseCard, clearCardData } = CardDataSlice.actions;
 
 //Selectors
 export const selectCards = (state: RootState) => state.cardData.cards;
