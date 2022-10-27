@@ -1,5 +1,5 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material"
-import { Box, Collapse, IconButton, Typography } from "@mui/material"
+import { Box, Collapse, Divider, IconButton, Typography } from "@mui/material"
 import { useState } from "react"
 import { MtgPaletteDefault } from "../MtgPalette"
 import { MtgText } from "../MtgText"
@@ -93,7 +93,7 @@ export const MtgCardDisplay = ({card}:MtgCardProps)=>{
             </Box>
             {/** DETAILS */}
             <Collapse in={expanded} sx={{width:'100%'}}>
-                { card.card_faces && 
+                { card.card_faces && !card.image_uris &&
                     <Box sx={collapseStyles}>
                         <MtgText text={card.card_faces[0].oracle_text}/>
                         <MtgCardArt src={card.card_faces[0].image_uris?.art_crop!} artist={card.card_faces[0].artist!}/>
@@ -103,6 +103,15 @@ export const MtgCardDisplay = ({card}:MtgCardProps)=>{
                 }{ !card.card_faces &&
                     <Box sx={collapseStyles}>
                         <MtgText text={card.oracle_text}/>
+                        <MtgCardArt src={card.image_uris?.art_crop} artist={card.artist!}/>
+                    </Box>
+                }{ card.card_faces && card.image_uris &&
+                    <Box sx={collapseStyles}>
+                        <Box>
+                            <MtgText text={card.card_faces[0].oracle_text}/>
+                            <Divider/>
+                            <MtgText text={card.card_faces[1].oracle_text}/>
+                        </Box>
                         <MtgCardArt src={card.image_uris?.art_crop} artist={card.artist!}/>
                     </Box>
                 }

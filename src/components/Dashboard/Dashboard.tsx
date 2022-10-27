@@ -6,8 +6,7 @@ import { Card, Deck } from "../../database";
 import { useCardData } from "../../hooks/useCardData";
 import { useCollection } from "../../hooks/useCollection";
 import { useSelectedDeck } from "../../hooks/useSelectedDeck";
-import { selectAvailableCards, selectDecks } from "../../redux/CollectionSlice";
-import { RootState } from "../../redux/store";
+import { selectAvailableCards, selectDeckCards, selectDecks, selectDeckSizes } from "../../redux/CollectionSlice";
 import { AvailableCardList } from "./AvailableCardList";
 import { CenteredSpinner } from "./CenteredSpinner.tsx/CenteredSpinnder";
 import { ConfirmDelete } from "./Dialogs/ConfirmDelete";
@@ -49,13 +48,12 @@ export const Dashboard = ()=>{
         setSelectedDeck(val)
     }
 
-    const deckCards = useSelector(
-        (state:RootState)=>Object.keys(state.collection.cards).filter((card_id)=>card_id.split(':')[0]===selectedDeck).map((card_id)=>state.collection.cards[card_id])
-    )
+    const deckCards = useSelector(selectDeckCards(selectedDeck))
 
     const availableCards = useSelector(selectAvailableCards)
 
     const decks = useSelector(selectDecks)
+    const deckSizes = useSelector(selectDeckSizes)
 
     const styles={
         display:'grid',
@@ -70,7 +68,7 @@ export const Dashboard = ()=>{
         <Box sx={styles}>
             <Typography variant='h5'>Collection</Typography>
             <Paper elevation={4} sx={{m:'20px', display:'grid', gridTemplateRows:'38px 1px 60px 1px minmax(0,1fr)'}}>
-                <Typography variant='h6' sx={{textAlign:'center'}}>Available Cards</Typography>
+                <Typography variant='h6' sx={{textAlign:'center'}}>{`Available Cards (${availableCards.reduce((prev,card)=>{return prev + card.qty},0)})`}</Typography>
                 <Divider/>
                 <Button onClick={handleSearchOpen} variant='contained' sx={{m:'5px'}}>Add a Card to Collection</Button>
                 <Divider/>
@@ -93,7 +91,7 @@ export const Dashboard = ()=>{
                     onChange={handleSelectDeck}
                 >                      
                    { decks.map(
-                    (deck)=><MenuItem key={deck.id} value={deck.id}>{deck.name}</MenuItem> 
+                    (deck)=><MenuItem key={deck.id} value={deck.id}>{`${deck.name} (${deckSizes[deck.id]})`}</MenuItem> 
                    ) }
                 </Select>
                 <Tooltip title='Rename Deck'>
@@ -122,7 +120,7 @@ export const Dashboard = ()=>{
                     { cardDataStatus === 'idle' && collectionStatus === 'idle' &&
                         <DeckCardList cards={deckCards}/>
                     }{
-                        (cardDataStatus !='idle' || collectionStatus !='idle') && <CenteredSpinner/>
+                        (cardDataStatus !=='idle' || collectionStatus !=='idle') && <CenteredSpinner/>
                     }
                 </Box>
             </Paper>

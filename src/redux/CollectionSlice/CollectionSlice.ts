@@ -136,5 +136,19 @@ export const selectDecks = (state:RootState)=>
 
 export const selectDeckIds = (state:RootState)=> Object.keys(state.collection.decks)
 
+export const selectDeckCards = (deck_id:string)=>(state:RootState)=>
+  Object.keys(state.collection.cards).filter((card_id)=>card_id.split(':')[0]===deck_id).map((card_id)=>state.collection.cards[card_id])
+    
+export const selectDeckSizes = (state:RootState)=>{
+  let result:{[deck_id:string]:number} = {}
+  Object.keys(state.collection.decks).forEach(
+    (deck_id)=>result[deck_id] = Object.keys(state.collection.cards)
+      .filter((card_id)=>card_id.split(':')[0]===deck_id)
+      .reduce((prev,id)=>{return prev + state.collection.cards[id].qty},0 )
+  )
+  return result
+}
+  
+
 //Reducer export
 export const collectionReducer = CollectionSlice.reducer;

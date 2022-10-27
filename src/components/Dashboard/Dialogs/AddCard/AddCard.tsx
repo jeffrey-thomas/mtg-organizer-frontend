@@ -67,7 +67,8 @@ export const AddCard = (props:AddCardProps) =>{
             <form onSubmit={handleSubmit(onSubmit)}>
                 <DialogContent sx={formStyles}>
                     {
-                        props.card.card_faces && <Box>
+                        props.card.card_faces && !props.card.image_uris &&
+                        <Box>
                             <img src={props.card.card_faces![0].image_uris!.normal}/>
                             <img src={props.card.card_faces![1].image_uris!.normal}/>
                         </Box>
