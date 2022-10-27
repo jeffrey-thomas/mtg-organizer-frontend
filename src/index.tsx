@@ -1,19 +1,24 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { store } from './app/store';
-import App from './App';
+import { Provider as StoreProvider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import { theme } from './theme';
+import { Routing } from './components/Routing';
+import { store } from './redux/store';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+      <StoreProvider store={store}>
+        <ThemeProvider theme={theme}>
+            <CssBaseline/>
+            <Routing />
+        </ThemeProvider>
+      </StoreProvider>
   </React.StrictMode>
 );
 
